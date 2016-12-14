@@ -1,0 +1,184 @@
+﻿namespace CombAlg3
+{
+    partial class FormMain
+    {
+        /// <summary>
+        /// Обязательная переменная конструктора.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Освободить все используемые ресурсы.
+        /// </summary>
+        /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Код, автоматически созданный конструктором форм Windows
+
+        /// <summary>
+        /// Требуемый метод для поддержки конструктора — не изменяйте 
+        /// содержимое этого метода с помощью редактора кода.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.dataGridViewMain = new System.Windows.Forms.DataGridView();
+            this.buttonStartExhaustive = new System.Windows.Forms.Button();
+            this.labelExhaustiveResultText = new System.Windows.Forms.Label();
+            this.buttonStartGenetic = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
+            this.labelExhaustiveResult = new System.Windows.Forms.Label();
+            this.labelGeneticResult = new System.Windows.Forms.Label();
+            this.labelStartTownText = new System.Windows.Forms.Label();
+            this.numericUpDownStartTown = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMain)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownStartTown)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // dataGridViewMain
+            // 
+            this.dataGridViewMain.AllowUserToAddRows = false;
+            this.dataGridViewMain.AllowUserToDeleteRows = false;
+            this.dataGridViewMain.AllowUserToResizeColumns = false;
+            this.dataGridViewMain.AllowUserToResizeRows = false;
+            this.dataGridViewMain.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewMain.ColumnHeadersVisible = false;
+            this.dataGridViewMain.Location = new System.Drawing.Point(12, 12);
+            this.dataGridViewMain.Name = "dataGridViewMain";
+            this.dataGridViewMain.RowHeadersVisible = false;
+            this.dataGridViewMain.RowTemplate.Height = 24;
+            this.dataGridViewMain.Size = new System.Drawing.Size(324, 296);
+            this.dataGridViewMain.TabIndex = 0;
+            this.dataGridViewMain.CellValidated += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMain_CellValidated);
+            this.dataGridViewMain.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.dataGridViewMain_CellValidating);
+            this.dataGridViewMain.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewMain_CellValueChanged);
+            this.dataGridViewMain.Enter += new System.EventHandler(this.dataGridViewMain_Enter);
+            this.dataGridViewMain.Leave += new System.EventHandler(this.dataGridViewMain_Leave);
+            this.dataGridViewMain.MouseEnter += new System.EventHandler(this.dataGridViewMain_MouseEnter);
+            this.dataGridViewMain.MouseLeave += new System.EventHandler(this.dataGridViewMain_MouseLeave);
+            // 
+            // buttonStartExhaustive
+            // 
+            this.buttonStartExhaustive.AutoSize = true;
+            this.buttonStartExhaustive.Location = new System.Drawing.Point(12, 345);
+            this.buttonStartExhaustive.Name = "buttonStartExhaustive";
+            this.buttonStartExhaustive.Size = new System.Drawing.Size(89, 27);
+            this.buttonStartExhaustive.TabIndex = 1;
+            this.buttonStartExhaustive.Text = "Exhaustive";
+            this.buttonStartExhaustive.UseVisualStyleBackColor = true;
+            this.buttonStartExhaustive.Click += new System.EventHandler(this.buttonStartExhaustive_Click);
+            // 
+            // labelExhaustiveResultText
+            // 
+            this.labelExhaustiveResultText.AutoSize = true;
+            this.labelExhaustiveResultText.Location = new System.Drawing.Point(107, 350);
+            this.labelExhaustiveResultText.Name = "labelExhaustiveResultText";
+            this.labelExhaustiveResultText.Size = new System.Drawing.Size(119, 17);
+            this.labelExhaustiveResultText.TabIndex = 2;
+            this.labelExhaustiveResultText.Text = "Exhaustive result:";
+            // 
+            // buttonStartGenetic
+            // 
+            this.buttonStartGenetic.Location = new System.Drawing.Point(12, 379);
+            this.buttonStartGenetic.Name = "buttonStartGenetic";
+            this.buttonStartGenetic.Size = new System.Drawing.Size(89, 23);
+            this.buttonStartGenetic.TabIndex = 3;
+            this.buttonStartGenetic.Text = "Genetic";
+            this.buttonStartGenetic.UseVisualStyleBackColor = true;
+            this.buttonStartGenetic.Click += new System.EventHandler(this.buttonStartGenetic_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(107, 382);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(112, 17);
+            this.label1.TabIndex = 4;
+            this.label1.Text = "Genetic result:   ";
+            // 
+            // labelExhaustiveResult
+            // 
+            this.labelExhaustiveResult.AutoSize = true;
+            this.labelExhaustiveResult.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelExhaustiveResult.Location = new System.Drawing.Point(222, 351);
+            this.labelExhaustiveResult.Name = "labelExhaustiveResult";
+            this.labelExhaustiveResult.Size = new System.Drawing.Size(16, 17);
+            this.labelExhaustiveResult.TabIndex = 5;
+            this.labelExhaustiveResult.Text = "-";
+            // 
+            // labelGeneticResult
+            // 
+            this.labelGeneticResult.AutoSize = true;
+            this.labelGeneticResult.Font = new System.Drawing.Font("Courier New", 7.8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.labelGeneticResult.Location = new System.Drawing.Point(222, 382);
+            this.labelGeneticResult.Name = "labelGeneticResult";
+            this.labelGeneticResult.Size = new System.Drawing.Size(16, 17);
+            this.labelGeneticResult.TabIndex = 6;
+            this.labelGeneticResult.Text = "-";
+            // 
+            // labelStartTownText
+            // 
+            this.labelStartTownText.AutoSize = true;
+            this.labelStartTownText.Location = new System.Drawing.Point(13, 315);
+            this.labelStartTownText.Name = "labelStartTownText";
+            this.labelStartTownText.Size = new System.Drawing.Size(75, 17);
+            this.labelStartTownText.TabIndex = 7;
+            this.labelStartTownText.Text = "Start town:";
+            // 
+            // numericUpDownStartTown
+            // 
+            this.numericUpDownStartTown.Location = new System.Drawing.Point(110, 313);
+            this.numericUpDownStartTown.Maximum = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            this.numericUpDownStartTown.Name = "numericUpDownStartTown";
+            this.numericUpDownStartTown.Size = new System.Drawing.Size(120, 22);
+            this.numericUpDownStartTown.TabIndex = 8;
+            // 
+            // FormMain
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(352, 418);
+            this.Controls.Add(this.numericUpDownStartTown);
+            this.Controls.Add(this.labelStartTownText);
+            this.Controls.Add(this.labelGeneticResult);
+            this.Controls.Add(this.labelExhaustiveResult);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.buttonStartGenetic);
+            this.Controls.Add(this.labelExhaustiveResultText);
+            this.Controls.Add(this.buttonStartExhaustive);
+            this.Controls.Add(this.dataGridViewMain);
+            this.MaximizeBox = false;
+            this.Name = "FormMain";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Trailing Salesman";
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewMain)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownStartTown)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.DataGridView dataGridViewMain;
+        private System.Windows.Forms.Button buttonStartExhaustive;
+        private System.Windows.Forms.Label labelExhaustiveResultText;
+        private System.Windows.Forms.Button buttonStartGenetic;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelExhaustiveResult;
+        private System.Windows.Forms.Label labelGeneticResult;
+        private System.Windows.Forms.Label labelStartTownText;
+        private System.Windows.Forms.NumericUpDown numericUpDownStartTown;
+    }
+}
+
