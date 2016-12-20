@@ -112,7 +112,7 @@ namespace CombAlg3
             for (int i = 0; i < genesCount; ++i)
                 if (!Towns.Keys.Contains<byte>(Genom[i]))
                     Towns.Add(Genom[i], 0);
-            return RoadLength == 0 ? double.MaxValue : RoadLength * 1.0 / Math.Pow(Towns.Keys.Count, 2.0);
+            return RoadLength == 0 ? double.MaxValue : RoadLength * 1.0 / Math.Pow(Towns.Keys.Count, Towns.Keys.Count);
         }
 
         /// <summary>
@@ -192,8 +192,6 @@ namespace CombAlg3
             //Запускаем процесс эволюции
             for(int i = 0; i < iterationsCount; ++i)
             {
-                //Отбираем лучших
-                //GetMostFit();
                 //Скрещиваем и получаем новое поколение
                 GetNewGeneration();
                 //"Мутируем" поколение

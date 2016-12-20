@@ -1,63 +1,80 @@
-﻿using System.Linq;
+﻿using System;
+using System.Windows.Forms;
+using System.ComponentModel;
+using System.Linq;
 
 namespace CombAlg3
 {
-    static class SalesmanTaskSolver
+    class SalesmanTaskSolver : INotifyPropertyChanged
     {
+        #region Private fields
+
+        private static Random generator;
+
+        private int townsCount;
+
         //Матрица смежности
-        static int[,] adjacencyMatrix;
+        private int[,] adjacencyMatrix;
 
-        static bool matrixIsCorrect;
+        //Город, с которого начинается путь
+        private int startTown;
 
-        public static bool MatrixIsCorrect
+        #endregion
+
+        #region INotifyPropertyChanged implemenatation
+        
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string PropertyName = "")
         {
-            get { return matrixIsCorrect; }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
         }
 
-        static int startTown;
+        #endregion
 
-        public static int StartTown
+        #region Public properties
+
+        /// <summary>
+        /// Суммарное колиество городов
+        /// </summary>
+        public int TownsCount
+        {
+            get { return townsCount; }
+            set
+            {
+                townsCount = value;
+                OnPropertyChanged("TownsCount");
+            }
+        }
+
+        /// <summary>
+        /// Город, с которого начинается путь
+        /// </summary>
+        public int StartTown
         {
             get { return startTown; }
-            set { startTown = value; }
+            set
+            {
+                startTown = value;
+                OnPropertyChanged("StartTown");
+            }
         }
 
-        /// <summary>
-        /// Статический конструктор, автоматически вызываемый при первом обращении или создании экземпляра
-        /// </summary>
+        #endregion
+
+        #region Private methods and static constructors
+
         static SalesmanTaskSolver()
         {
-            adjacencyMatrix = null;
-            matrixIsCorrect = false;
+            generator = new Random(DateTime.Now.Millisecond);
         }
-
+        
         /// <summary>
-        /// Метод инициализации матрицы смежности, для которой будет находиться решение задачи коммивояжера
-        /// </summary>
-        /// <param name="InitializingMatrix"></param>
-        /// <returns></returns>
-        public static bool InitializeAdjancencyMatrix(ref int[,] InitializingMatrix, byte StartTown)
-        {
-            startTown = StartTown;
-            //Если инициализирующая матрица - не квадратная, она не подходит
-            if (InitializingMatrix.GetLength(0) != InitializingMatrix.GetLength(1))
-                return false;
-            int Size = InitializingMatrix.GetLength(0);
-            for (int i = 0; i < Size; ++i)
-                for (int j = 0; j < Size; ++j)
-                    if (i != j && InitializingMatrix[i, j] <= 0)
-                        return false;
-            adjacencyMatrix = InitializingMatrix;
-            matrixIsCorrect = true;
-            return true;
-        }
-
-        /// <summary>
-        /// Вспомогательный метод генераци перестановок
+        /// Вспомогательный метод генерации перестановок
         /// </summary>
         /// <param name="Permutation">Исходная перестановка</param>
         /// <returns>Возвращает false, если перестановка упорядочена</returns>
-        static bool NextPermutation(ref byte[] Permutation)
+        private bool NextPermutation(ref byte[] Permutation)
         {
             //индекс последнего элемента перестановки
             int n = Permutation.Count() - 1;
@@ -85,12 +102,36 @@ namespace CombAlg3
             return true;
         }
 
+        #endregion
+
+        #region Public methods
+
+        /// <summary>
+        /// Конструктор
+        /// </summary>
+        public SalesmanTaskSolver()
+        {
+            townsCount = startTown = 0;
+            adjacencyMatrix = null;
+        }
+
+        /// <summary>
+        /// Создание новой случайно заполненной матрицы
+        /// </summary>
+        public void GenerateNewRandomDataMatrix()
+        {
+            adjacencyMatrix = new int[townsCount, townsCount];
+            for (int i = 0; i < townsCount; ++i)
+                for (int j = i + 1; j < townsCount; ++j)
+                    adjacencyMatrix[i, j] = adjacencyMatrix[j, i] = generator.Next();
+        }
+
         /// <summary>
         /// Метод нахождения решения задачи коммивояжера для заданной матрицы смежности простым перебором
         /// </summary>
         /// <param name="ResultSequence"></param>
         /// <returns>Возвращает значение, позволющее судить о возникновении определенных исключительных ситуаций</returns>
-        public static SalesmanGenom SolveViaExhaustiveAlgorithm()
+        public SalesmanGenom SolveViaExhaustiveAlgorithm()
         {
             SalesmanGenom ResultSequence = null;
             int MatrixSize = adjacencyMatrix.GetLength(0);
@@ -134,10 +175,12 @@ namespace CombAlg3
         /// </summary>
         /// <param name="ResultSequence">Выходной параметр - последовательность вершин</param>
         /// <returns></returns>
-        public static SalesmanGenom SolveViaGeneticAlgorithm()
+        public SalesmanGenom SolveViaGeneticAlgorithm()
         {
-            SalesmanGeneticAlgorithm Solver = new SalesmanGeneticAlgorithm(adjacencyMatrix, startTown,100, 60.0, 80.0, 100, 10);
+            SalesmanGeneticAlgorithm Solver = new SalesmanGeneticAlgorithm(adjacencyMatrix, startTown, 100, 60.0, 80.0, 100, 10);
             return Solver.Evolve();
         }
+        
+        #endregion
     }
 }

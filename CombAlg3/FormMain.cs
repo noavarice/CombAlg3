@@ -19,9 +19,14 @@ namespace CombAlg3
 
         int[,] AdjacencyMatrix;
 
+        private SalesmanTaskSolver temp;
+
         public FormMain()
         {
             InitializeComponent();
+            temp = new SalesmanTaskSolver();
+            numericUpDownStartTown.DataBindings.Add("Value", temp, "StartTown");
+            temp.StartTown = 3;
             AdjacencyMatrix = new int[Count, Count];
             //Устанавливаем количество строк и столбцов
             dataGridViewMain.RowCount = dataGridViewMain.ColumnCount = Count;
@@ -111,11 +116,14 @@ namespace CombAlg3
                     else
                         AdjacencyMatrix[i, j] = AdjacencyMatrix[j, i] = temp;
             byte StartTown = (byte)(numericUpDownStartTown.Value);
+            /*
             if (!SalesmanTaskSolver.InitializeAdjancencyMatrix(ref AdjacencyMatrix, StartTown))
                 MessageBox.Show("Wrong values of adjacency matrix");
             else
             {
+                DateTime StartExecutionTime = DateTime.Now;
                 var Genom = SalesmanTaskSolver.SolveViaExhaustiveAlgorithm();
+                TimeSpan Difference = DateTime.Now - StartExecutionTime;
                 StringBuilder Builder = new StringBuilder(StartTown.ToString(), 11);
                 for (int i = 0; i < Genom.GenesCount; ++i)
                 {
@@ -124,14 +132,19 @@ namespace CombAlg3
                 }
                 Builder.Append("-" + StartTown.ToString());
                 labelExhaustiveResult.Text = Builder.ToString();
+                labelExhaustiveExecutionTime.Text = Difference.TotalMilliseconds.ToString();
             }
+            */
         }
 
         private void buttonStartGenetic_Click(object sender, EventArgs e)
         {
+            /*
             byte StartTown = (byte)(numericUpDownStartTown.Value);
             SalesmanTaskSolver.StartTown = (int)numericUpDownStartTown.Value;
+            DateTime StartExecutionTime = DateTime.Now;
             SalesmanGenom Genom = SalesmanTaskSolver.SolveViaGeneticAlgorithm();
+            TimeSpan Difference = DateTime.Now - StartExecutionTime;
             StringBuilder Builder = new StringBuilder(StartTown.ToString(), 11);
             for (int i = 0; i < Genom.GenesCount; ++i)
             {
@@ -140,6 +153,8 @@ namespace CombAlg3
             }
             Builder.Append("-" + StartTown.ToString());
             labelGeneticResult.Text = Builder.ToString();
+            labelGeneticExecutionTime.Text = Difference.TotalMilliseconds.ToString();
+            */
         }
     }
 }
