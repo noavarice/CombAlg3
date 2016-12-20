@@ -5,6 +5,13 @@ namespace CombAlg3
 {
     class SalesmanGenom 
     {
+        static Random generator;
+
+        static SalesmanGenom()
+        {
+            generator = new Random(DateTime.Now.Millisecond);
+        }
+
         //Сам геном - последовательность индексов городов
         byte[] townsIndicesSequence;
 
@@ -56,8 +63,9 @@ namespace CombAlg3
         /// </summary>
         public void GetRandomGenom()
         {
-            Random generator = new Random(DateTime.Now.Millisecond);
             generator.NextBytes(townsIndicesSequence);
+            for (int i = 0; i < genesCount; ++i)
+                townsIndicesSequence[i] %= (byte)(genesCount + 1);
         }
 
         /// <summary>
@@ -68,13 +76,14 @@ namespace CombAlg3
         /// <returns>Возвращает геном, полученный в результате скрещивания</returns>
         public static SalesmanGenom Crossingover(SalesmanGenom FirstParent, SalesmanGenom SecondParent)
         {
+            if (FirstParent.genesCount != SecondParent.genesCount)
+                return null;
             int GenesCount = FirstParent.GenesCount;
             SalesmanGenom NewGenom = new SalesmanGenom(GenesCount);
             //Копируем половину (или меньше округленную в меньшую часть половину, если GenesCount - нечетное) генома первого родителя
             Array.ConstrainedCopy(FirstParent.townsIndicesSequence, 0, NewGenom.townsIndicesSequence, 0, GenesCount / 2);
             //..и затем вторую половину генома второго родителя
-            int SecondHalfGenomStartIndex = GenesCount / 2 + GenesCount % 2;
-            Array.ConstrainedCopy(SecondParent.townsIndicesSequence, SecondHalfGenomStartIndex, NewGenom.townsIndicesSequence, SecondHalfGenomStartIndex, SecondHalfGenomStartIndex);
+            Array.ConstrainedCopy(SecondParent.townsIndicesSequence, GenesCount / 2, NewGenom.townsIndicesSequence, GenesCount / 2, GenesCount / 2 + GenesCount % 2);
             return NewGenom;
         }
     }

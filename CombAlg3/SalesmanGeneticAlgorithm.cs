@@ -1,13 +1,22 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
+using System.IO;
+using System.Collections.Generic;
 
 namespace CombAlg3
 {
     class SalesmanGeneticAlgorithm : GeneticAlgorithm<SalesmanGenom>
     {
         //Значение, исходя из которого будет вычисляться значение FitnessFunction - длина пройденного оптимального пути
-        int optimalValue;
 
         int startTown;
+
+        public int StartTown
+        {
+            get { return startTown; }
+            set { startTown = value; }
+        }
 
         //Матрицы достижимости
         int[,] adjacencyMatrix;
@@ -24,14 +33,13 @@ namespace CombAlg3
         //Очередное поколение
         SalesmanGenom[] generation;
 
-        SalesmanGenom[] mostFit;
+        Random Generator;
 
         /// <summary>
         /// Конструктор класса
         /// </summary>
         /// <param name="AdjacencyMatrix">Матрица достижимости городов</param>
         /// <param name="StartTown">Индекс города, с которого начнется и которым закончится путь</param>
-        /// <param name="OptimalValue">Значение, являющееся оптимальным для данной задачи</param>
         /// <param name="GenerationsCount">Количество поколений, которое будет сгенерировано</param>
         /// <param name="MutationsPercentage">Процентное соотношение количества мутаций к размеру генома</param>
         /// <param name="GenomsToMutatePercentage">Процентное соотношение количества мутировавших геномов к общему числу геномов в поколении</param>
@@ -40,7 +48,6 @@ namespace CombAlg3
         public SalesmanGeneticAlgorithm(
             int[,]  AdjacencyMatrix,
             int     StartTown,
-            int     OptimalValue,
             int     GenerationsCount,
             double  MutationsPercentage,
             double  GenomsToMutatePercentage,
@@ -55,12 +62,11 @@ namespace CombAlg3
         {
             adjacencyMatrix = AdjacencyMatrix;
             startTown = StartTown;
-            optimalValue = OptimalValue;
-            genesCount = adjacencyMatrix.GetLength(0);
+            genesCount = adjacencyMatrix.GetLength(0) - 1;
             mutationsCount = (int)(genesCount / 100.0 * mutationsPercentage);
             mutatedGenomsCount = (int)(firstGenerationGenomsCount / 100.0 * GenomsToMutatePercentage);
             generation = new SalesmanGenom[firstGenerationGenomsCount];
-            mostFit = new SalesmanGenom[mostFitCount];
+            Generator = new Random(DateTime.Now.Millisecond);
         }
 
         /// <summary>
@@ -97,11 +103,16 @@ namespace CombAlg3
         /// <returns>Разницу между оптимальным значением и полученной длиной пути</returns>
         protected override double FitnessFunction(SalesmanGenom Genom)
         {
-            int RoadLength = 0;
+            int RoadLength = adjacencyMatrix[startTown, Genom[0]];
             //Считаем длину пути
             for (int i = 0; i < genesCount - 1; ++i)
-                RoadLength += adjacencyMatrix[i, i + 1];
-            return Math.Abs(RoadLength - optimalValue);
+                RoadLength += adjacencyMatrix[Genom[i], Genom[i + 1]];
+            RoadLength += adjacencyMatrix[startTown, Genom[genesCount - 1]];
+            Dictionary<byte, int> Towns = new Dictionary<byte, int>();
+            for (int i = 0; i < genesCount; ++i)
+                if (!Towns.Keys.Contains<byte>(Genom[i]))
+                    Towns.Add(Genom[i], 0);
+            return RoadLength == 0 ? double.MaxValue : RoadLength * 1.0 / Math.Pow(Towns.Keys.Count, 2.0);
         }
 
         /// <summary>
@@ -110,28 +121,12 @@ namespace CombAlg3
         /// <param name="Genom">Изменяемый геном</param>
         protected override void MutateGenom(SalesmanGenom Genom)
         {
-            Random Generator = new Random(DateTime.Now.Millisecond);
             byte[] temp = new byte[mutationsCount];
             Generator.NextBytes(temp);
             for (int i = 0; i < mutationsCount; ++i)
+                temp[i] %= (byte)genesCount;
+            for (int i = 0; i < mutationsCount; ++i)
                 Genom[Generator.Next(0, genesCount - 1)] = temp[i];
-        }
-
-        /// <summary>
-        /// Вспомогательный метод сравнения двух геномов по результатам FitnessFunction
-        /// </summary>
-        /// <param name="FirstGenom">Первый геном, участвубщий в сравнении</param>
-        /// <param name="SecondGenom">Второй геном, участвующий в сравнении</param>
-        /// <returns>Если результ меньше нуля - первый геном "меньше", если больше нуля - первый "больше", иначе равны/returns>
-        int CompareGenoms(SalesmanGenom FirstGenom, SalesmanGenom SecondGenom)
-        {
-            double FirstGenomFitness = FitnessFunction(FirstGenom);
-            double SecondGenomFitness = FitnessFunction(SecondGenom);
-            if (FirstGenomFitness < SecondGenomFitness)
-                return -1;
-            if (FirstGenomFitness > SecondGenomFitness)
-                return 1;
-            return 0;
         }
 
         /// <summary>
@@ -140,7 +135,10 @@ namespace CombAlg3
         void GetNewGeneration()
         {
             //Сортируем массив геномов по степени "подходимости"
-            Array.Sort(generation, CompareGenoms);
+            double[] GenerationFitnesses = new double[firstGenerationGenomsCount];
+            for (int i = 0; i < firstGenerationGenomsCount; ++i)
+                GenerationFitnesses[i] = FitnessFunction(generation[i]);
+            Array.Sort(GenerationFitnesses, generation);
             //Сохраним в новом поколении лучших, поэтому начнем заполнять массив поколений, начиная с (mostFitCount + 1)-й позиции
             int InsertPosition = mostFitCount;
             //идем по всем "выжившим" и попарно их скрещиваем
@@ -159,9 +157,27 @@ namespace CombAlg3
         /// </summary>
         void MutateGeneration()
         {
-            Random Generator = new Random(DateTime.Now.Millisecond);
             for (int i = 0; i < mutatedGenomsCount; ++i)
                 MutateGenom(generation[Generator.Next(0, firstGenerationGenomsCount)]);
+        }
+
+        void Log(int GenerationNumber)
+        {
+            string Filename = @"C:\Users\Alex\Documents\Visual Studio 2015\Projects\CombAlgs\CombAlg3\CombAlg3\log_files\"
+                + DateTime.Now.Hour.ToString()
+                + DateTime.Now.Minute.ToString()
+                + DateTime.Now.Second.ToString()
+                + DateTime.Now.Millisecond.ToString() + ".txt";
+            StreamWriter Writer = new StreamWriter(Filename, false);
+            Writer.Write("Generation #" + GenerationNumber.ToString() + Writer.NewLine);
+            for(int i = 0; i < firstGenerationGenomsCount; ++i)
+            {
+                StringBuilder b = new StringBuilder(genesCount);
+                for (int j = 0; j < genesCount; ++j)
+                    b.Append(generation[i][j].ToString());
+                Writer.Write(b.ToString() + Writer.NewLine);
+            }
+            Writer.Close();
         }
 
         /// <summary>
@@ -177,14 +193,14 @@ namespace CombAlg3
             for(int i = 0; i < iterationsCount; ++i)
             {
                 //Отбираем лучших
-                GetMostFit();
+                //GetMostFit();
                 //Скрещиваем и получаем новое поколение
                 GetNewGeneration();
                 //"Мутируем" поколение
                 MutateGeneration();
             }
             //Находим наиболее подходящий геном
-            double MinDifference = Double.MaxValue;
+            double MinDifference = double.MaxValue;
             foreach(SalesmanGenom Genom in generation)
             {
                 double CurrentDifference = FitnessFunction(Genom);

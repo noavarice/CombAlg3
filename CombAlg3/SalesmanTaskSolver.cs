@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace CombAlg3
 {
@@ -15,10 +14,13 @@ namespace CombAlg3
             get { return matrixIsCorrect; }
         }
 
-        static byte startTown;
+        static int startTown;
 
-        //Длина пути, полученная в ходе поиска решения путем простого перебора
-        static int optimalValue;
+        public static int StartTown
+        {
+            get { return startTown; }
+            set { startTown = value; }
+        }
 
         /// <summary>
         /// Статический конструктор, автоматически вызываемый при первом обращении или создании экземпляра
@@ -27,7 +29,6 @@ namespace CombAlg3
         {
             adjacencyMatrix = null;
             matrixIsCorrect = false;
-            optimalValue = 0;
         }
 
         /// <summary>
@@ -98,9 +99,11 @@ namespace CombAlg3
             int InsertPosition = 0;
             for(byte i = 0; i < MatrixSize; ++i)
             {
-                TempSequence[InsertPosition] = i;
                 if (i != startTown)
+                {
+                    TempSequence[InsertPosition] = i;
                     ++InsertPosition;
+                }
             }
             //Переменная, хранящая минимальное пройденное расстояние
             int MinDistance = int.MaxValue;
@@ -116,7 +119,7 @@ namespace CombAlg3
                 //Если путь валидный и его длина меньше минимальной
                 if (CurrentDistance < MinDistance)
                 {
-                    MinDistance = optimalValue = CurrentDistance;
+                    MinDistance = CurrentDistance;
                     ResultSequence = new SalesmanGenom(TempSequence);
                 }
                 ++t;
@@ -131,9 +134,9 @@ namespace CombAlg3
         /// </summary>
         /// <param name="ResultSequence">Выходной параметр - последовательность вершин</param>
         /// <returns></returns>
-        public static SalesmanGenom SolveViaGeneticAlgorithm(int IterationsCount)
+        public static SalesmanGenom SolveViaGeneticAlgorithm()
         {
-            SalesmanGeneticAlgorithm Solver = new SalesmanGeneticAlgorithm(adjacencyMatrix, optimalValue, IterationsCount, 3.0, 3.0, 25, 5);
+            SalesmanGeneticAlgorithm Solver = new SalesmanGeneticAlgorithm(adjacencyMatrix, startTown,100, 60.0, 80.0, 100, 10);
             return Solver.Evolve();
         }
     }

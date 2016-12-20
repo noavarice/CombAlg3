@@ -32,7 +32,7 @@
             this.buttonStartExhaustive = new System.Windows.Forms.Button();
             this.labelExhaustiveResultText = new System.Windows.Forms.Label();
             this.buttonStartGenetic = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
+            this.labelGenericResultText = new System.Windows.Forms.Label();
             this.labelExhaustiveResult = new System.Windows.Forms.Label();
             this.labelGeneticResult = new System.Windows.Forms.Label();
             this.labelStartTownText = new System.Windows.Forms.Label();
@@ -93,14 +93,14 @@
             this.buttonStartGenetic.UseVisualStyleBackColor = true;
             this.buttonStartGenetic.Click += new System.EventHandler(this.buttonStartGenetic_Click);
             // 
-            // label1
+            // labelGenericResultText
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(107, 382);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(112, 17);
-            this.label1.TabIndex = 4;
-            this.label1.Text = "Genetic result:   ";
+            this.labelGenericResultText.AutoSize = true;
+            this.labelGenericResultText.Location = new System.Drawing.Point(107, 382);
+            this.labelGenericResultText.Name = "labelGenericResultText";
+            this.labelGenericResultText.Size = new System.Drawing.Size(112, 17);
+            this.labelGenericResultText.TabIndex = 4;
+            this.labelGenericResultText.Text = "Genetic result:   ";
             // 
             // labelExhaustiveResult
             // 
@@ -135,7 +135,7 @@
             // 
             this.numericUpDownStartTown.Location = new System.Drawing.Point(110, 313);
             this.numericUpDownStartTown.Maximum = new decimal(new int[] {
-            6,
+            5,
             0,
             0,
             0});
@@ -152,12 +152,14 @@
             this.Controls.Add(this.labelStartTownText);
             this.Controls.Add(this.labelGeneticResult);
             this.Controls.Add(this.labelExhaustiveResult);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.labelGenericResultText);
             this.Controls.Add(this.buttonStartGenetic);
             this.Controls.Add(this.labelExhaustiveResultText);
             this.Controls.Add(this.buttonStartExhaustive);
             this.Controls.Add(this.dataGridViewMain);
             this.MaximizeBox = false;
+            this.MaximumSize = new System.Drawing.Size(370, 465);
+            this.MinimumSize = new System.Drawing.Size(370, 465);
             this.Name = "FormMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Trailing Salesman";
@@ -174,7 +176,7 @@
         private System.Windows.Forms.Button buttonStartExhaustive;
         private System.Windows.Forms.Label labelExhaustiveResultText;
         private System.Windows.Forms.Button buttonStartGenetic;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelGenericResultText;
         private System.Windows.Forms.Label labelExhaustiveResult;
         private System.Windows.Forms.Label labelGeneticResult;
         private System.Windows.Forms.Label labelStartTownText;

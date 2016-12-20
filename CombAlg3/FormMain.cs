@@ -22,7 +22,6 @@ namespace CombAlg3
         public FormMain()
         {
             InitializeComponent();
-            Application.Idle += Idle;
             AdjacencyMatrix = new int[Count, Count];
             //Устанавливаем количество строк и столбцов
             dataGridViewMain.RowCount = dataGridViewMain.ColumnCount = Count;
@@ -51,11 +50,6 @@ namespace CombAlg3
             dataGridViewMain.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
             //Шрифт
             dataGridViewMain.DefaultCellStyle.Font = new Font("Arial", 16f, GraphicsUnit.Pixel);
-        }
-
-        void Idle(object sender, EventArgs e)
-        {
-            buttonStartGenetic.Enabled = SalesmanTaskSolver.MatrixIsCorrect;
         }
 
         private void dataGridViewMain_CellValidating(object sender, DataGridViewCellValidatingEventArgs e)
@@ -136,7 +130,8 @@ namespace CombAlg3
         private void buttonStartGenetic_Click(object sender, EventArgs e)
         {
             byte StartTown = (byte)(numericUpDownStartTown.Value);
-            SalesmanGenom Genom = SalesmanTaskSolver.SolveViaGeneticAlgorithm(10);
+            SalesmanTaskSolver.StartTown = (int)numericUpDownStartTown.Value;
+            SalesmanGenom Genom = SalesmanTaskSolver.SolveViaGeneticAlgorithm();
             StringBuilder Builder = new StringBuilder(StartTown.ToString(), 11);
             for (int i = 0; i < Genom.GenesCount; ++i)
             {
@@ -144,6 +139,7 @@ namespace CombAlg3
                 Builder.Append(Genom[i].ToString());
             }
             Builder.Append("-" + StartTown.ToString());
+            labelGeneticResult.Text = Builder.ToString();
         }
     }
 }
