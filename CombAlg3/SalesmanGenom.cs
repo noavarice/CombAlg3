@@ -5,7 +5,7 @@ namespace CombAlg3
 {
     class SalesmanGenom 
     {
-        static Random generator;
+        private static Random generator;
 
         static SalesmanGenom()
         {
@@ -13,7 +13,7 @@ namespace CombAlg3
         }
 
         //Сам геном - последовательность индексов городов
-        byte[] townsIndicesSequence;
+        private byte[] townsIndicesSequence;
 
         /// <summary>
         /// Индексатор для обеспечения доступа к произвольному гену
@@ -27,7 +27,7 @@ namespace CombAlg3
         }
 
         //Длина генома - количество генов в нем
-        int genesCount;
+        private int genesCount;
 
         /// <summary>
         /// Количество генов в геноме

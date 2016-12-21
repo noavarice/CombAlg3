@@ -5,16 +5,16 @@ namespace CombAlg3
     static class SalesmanTaskSolver
     {
         //Матрица смежности
-        static int[,] adjacencyMatrix;
+        private static int[,] adjacencyMatrix;
 
-        static bool matrixIsCorrect;
+        private static bool matrixIsCorrect;
 
         public static bool MatrixIsCorrect
         {
             get { return matrixIsCorrect; }
         }
 
-        static int startTown;
+        private static int startTown;
 
         public static int StartTown
         {
@@ -57,7 +57,7 @@ namespace CombAlg3
         /// </summary>
         /// <param name="Permutation">Исходная перестановка</param>
         /// <returns>Возвращает false, если перестановка упорядочена</returns>
-        static bool NextPermutation(ref byte[] Permutation)
+        private static bool NextPermutation(ref byte[] Permutation)
         {
             //индекс последнего элемента перестановки
             int n = Permutation.Count() - 1;

@@ -7,17 +7,17 @@ namespace CombAlg3
 {
     public partial class FormMain : Form
     {
-        const int Count = 6;
+        private const int Count = 6;
         
-        const int SideSize = 40;
+        private const int SideSize = 40;
 
-        const int MaxCellInputStringLength = 3;
+        private const int MaxCellInputStringLength = 3;
 
-        const string NaNErrorText = "Введенное значение не является натуральным числом";
+        private const string NaNErrorText = "Введенное значение не является натуральным числом";
 
-        const string NegativeNumberOrZeroErrorText = "Введенное значение не является натуральным числом";
+        private const string NegativeNumberOrZeroErrorText = "Введенное значение не является натуральным числом";
 
-        int[,] AdjacencyMatrix;
+        private int[,] AdjacencyMatrix;
 
         public FormMain()
         {

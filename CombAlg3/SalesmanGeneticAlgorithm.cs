@@ -10,7 +10,7 @@ namespace CombAlg3
     {
         //Значение, исходя из которого будет вычисляться значение FitnessFunction - длина пройденного оптимального пути
 
-        int startTown;
+        private int startTown;
 
         public int StartTown
         {
@@ -19,21 +19,21 @@ namespace CombAlg3
         }
 
         //Матрицы достижимости
-        int[,] adjacencyMatrix;
+        private int[,] adjacencyMatrix;
 
         //Количество мутаций - чтобы каждый раз не считать при мутировании очередного генома
-        int mutationsCount;
+        private int mutationsCount;
 
         //Количество мутировавших геномов
-        int mutatedGenomsCount;
+        private int mutatedGenomsCount;
 
         //Количество генов в геноме - опять же, чтобы каждый раз не находить заново
-        int genesCount;
+        private int genesCount;
 
         //Очередное поколение
-        SalesmanGenom[] generation;
+        private SalesmanGenom[] generation;
 
-        Random Generator;
+        private Random Generator;
 
         /// <summary>
         /// Конструктор класса
@@ -132,7 +132,7 @@ namespace CombAlg3
         /// <summary>
         /// Метод получения нового поколения путем скрещивания лучших геномов.
         /// </summary>
-        void GetNewGeneration()
+        private void GetNewGeneration()
         {
             //Сортируем массив геномов по степени "подходимости"
             double[] GenerationFitnesses = new double[firstGenerationGenomsCount];
@@ -155,13 +155,13 @@ namespace CombAlg3
         /// <summary>
         /// Метод, производящий мутации над заданным количеством случайных геномов
         /// </summary>
-        void MutateGeneration()
+        private void MutateGeneration()
         {
             for (int i = 0; i < mutatedGenomsCount; ++i)
                 MutateGenom(generation[Generator.Next(0, firstGenerationGenomsCount)]);
         }
 
-        void Log(int GenerationNumber)
+        private void Log(int GenerationNumber)
         {
             string Filename = @"C:\Users\Alex\Documents\Visual Studio 2015\Projects\CombAlgs\CombAlg3\CombAlg3\log_files\"
                 + DateTime.Now.Hour.ToString()
