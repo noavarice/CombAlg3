@@ -1,25 +1,59 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace CombAlg3
 {
+    /// <summary>
+    /// Статический класс, предоставляющий методы для решения задачи коммивояжера перебором и с помощью генетического алгоритма
+    /// </summary>
     static class SalesmanTaskSolver
     {
         //Матрица смежности
         private static int[,] adjacencyMatrix;
 
+        //Поле корректности матрицы
         private static bool matrixIsCorrect;
 
+        /// <summary>
+        /// Является ли асcоциированная с классом матрица корректной. Свойство только на чтение
+        /// </summary>
         public static bool MatrixIsCorrect
         {
             get { return matrixIsCorrect; }
         }
 
+        //Город, с которого начинается обход
         private static int startTown;
 
+        /// <summary>
+        /// Индекс города, с которого начинается обход
+        /// </summary>
         public static int StartTown
         {
             get { return startTown; }
             set { startTown = value; }
+        }
+
+        //Время выполнения генетического алгоритма
+        private static TimeSpan geneticExecutionTime;
+
+        /// <summary>
+        /// Возвращает время выполнения генетического алгоритма. Свойство только на чтение
+        /// </summary>
+        public static TimeSpan GeneticExecutionTime
+        {
+            get { return geneticExecutionTime; }
+        }
+
+        //Время выполнения полного перебораj
+        private static TimeSpan exhaustiveExecutionTime;
+
+        /// <summary>
+        /// Возвращает последнее время выполнения перебора всех вариантов. Свойство только на чтение
+        /// </summary>
+        public static TimeSpan ExhaustiveExecutionTime
+        {
+            get { return exhaustiveExecutionTime; }
         }
 
         /// <summary>
@@ -29,6 +63,8 @@ namespace CombAlg3
         {
             adjacencyMatrix = null;
             matrixIsCorrect = false;
+            exhaustiveExecutionTime = new TimeSpan();
+            geneticExecutionTime = new TimeSpan();
         }
 
         /// <summary>
@@ -92,6 +128,8 @@ namespace CombAlg3
         /// <returns>Возвращает значение, позволющее судить о возникновении определенных исключительных ситуаций</returns>
         public static SalesmanGenom SolveViaExhaustiveAlgorithm()
         {
+            //Засекаем начальное время
+            DateTime StartTime = DateTime.Now;
             SalesmanGenom ResultSequence = null;
             int MatrixSize = adjacencyMatrix.GetLength(0);
             //Генерируем антилексикографически упорядоченную перестановку из индексов городов, кроме того, с которого начинаем идти
@@ -126,6 +164,8 @@ namespace CombAlg3
             }
             //Генерируем следующую перестановку
             while (NextPermutation(ref TempSequence));
+            //Вычисляем разницу между временем начала работы алгоритма и его концом
+            exhaustiveExecutionTime = new TimeSpan((DateTime.Now - StartTime).Milliseconds);
             return ResultSequence;
         }
 
@@ -136,8 +176,10 @@ namespace CombAlg3
         /// <returns></returns>
         public static SalesmanGenom SolveViaGeneticAlgorithm()
         {
-            SalesmanGeneticAlgorithm Solver = new SalesmanGeneticAlgorithm(adjacencyMatrix, startTown,100, 60.0, 80.0, 100, 10);
-            return Solver.Evolve();
+            SalesmanGeneticAlgorithm Solver = new SalesmanGeneticAlgorithm(adjacencyMatrix, startTown, 1000, 60.0, 80.0, 100, 10);
+            var Result = Solver.Evolve();
+            geneticExecutionTime = Solver.ExecutionTime;
+            return Result;
         }
     }
 }

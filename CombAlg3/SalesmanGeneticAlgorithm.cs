@@ -6,19 +6,35 @@ using System.Collections.Generic;
 
 namespace CombAlg3
 {
+    /// <summary>
+    /// Класс, предоставлябщий метод решения задачи коммивояжера с помощью генетического алгоритма
+    /// </summary>
     class SalesmanGeneticAlgorithm : GeneticAlgorithm<SalesmanGenom>
     {
-        //Значение, исходя из которого будет вычисляться значение FitnessFunction - длина пройденного оптимального пути
+        //Статический генератор рандомных последовательностей
+        static private Random Generator;
 
+        /// <summary>
+        /// Статический конструктор, предназаченный для инициализации статических полей класса
+        /// </summary>
+        static SalesmanGeneticAlgorithm()
+        {
+            Generator = new Random(DateTime.Now.Millisecond);
+        }
+
+        //Город, с которого начинается обход
         private int startTown;
 
+        /// <summary>
+        /// Задает или возвращает индекс города, с которого начинается обход
+        /// </summary>
         public int StartTown
         {
             get { return startTown; }
             set { startTown = value; }
         }
 
-        //Матрицы достижимости
+        //Матрица достижимости
         private int[,] adjacencyMatrix;
 
         //Количество мутаций - чтобы каждый раз не считать при мутировании очередного генома
@@ -33,7 +49,16 @@ namespace CombAlg3
         //Очередное поколение
         private SalesmanGenom[] generation;
 
-        private Random Generator;
+        //Время выполнения генетического алгоритма
+        private TimeSpan executionTime;
+
+        /// <summary>
+        /// Возвращает время выполнения алгоритма. Свойство только на чтение
+        /// </summary>
+        public TimeSpan ExecutionTime
+        {
+            get { return executionTime; }
+        }
 
         /// <summary>
         /// Конструктор класса
@@ -67,6 +92,7 @@ namespace CombAlg3
             mutatedGenomsCount = (int)(firstGenerationGenomsCount / 100.0 * GenomsToMutatePercentage);
             generation = new SalesmanGenom[firstGenerationGenomsCount];
             Generator = new Random(DateTime.Now.Millisecond);
+            executionTime = new TimeSpan();
         }
 
         /// <summary>
@@ -161,6 +187,10 @@ namespace CombAlg3
                 MutateGenom(generation[Generator.Next(0, firstGenerationGenomsCount)]);
         }
 
+        /// <summary>
+        /// Метод логгирования информации о поколениях, сгенерированных в процессе работы алгоритма
+        /// </summary>
+        /// <param name="GenerationNumber">Номер сгенерированного поколения</param>
         private void Log(int GenerationNumber)
         {
             string Filename = @"C:\Users\Alex\Documents\Visual Studio 2015\Projects\CombAlgs\CombAlg3\CombAlg3\log_files\"
@@ -186,6 +216,8 @@ namespace CombAlg3
         /// <param name="Result">Результат работы алгоритма - приближенная последовательность городов для их обхода</param>
         public SalesmanGenom Evolve()
         {
+            //Засекаем время начала работы алгоритма
+            DateTime StartTime = DateTime.Now;
             SalesmanGenom Result = null;
             //Генерируем стартовые поколения
             GetFirstGeneration();
@@ -210,6 +242,8 @@ namespace CombAlg3
                     Result = Genom;
                 }
             }
+            //Находим разницу во времени
+            executionTime = DateTime.Now - StartTime;
             return Result;
         }
     }

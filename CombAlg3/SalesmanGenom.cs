@@ -3,10 +3,17 @@ using System.Linq;
 
 namespace CombAlg3
 {
+    /// <summary>
+    /// Класс, представляющий собой единицу генетичекого алгоритма - отдельный геном
+    /// </summary>
     class SalesmanGenom 
     {
+        //Статический генератор случайных чисел
         private static Random generator;
 
+        /// <summary>
+        /// Статический конструктор для инициализации статичеких полей класса
+        /// </summary>
         static SalesmanGenom()
         {
             generator = new Random(DateTime.Now.Millisecond);
@@ -30,7 +37,7 @@ namespace CombAlg3
         private int genesCount;
 
         /// <summary>
-        /// Количество генов в геноме
+        /// Количество генов в геноме. Свойство только на чтение
         /// </summary>
         public int GenesCount
         {

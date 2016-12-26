@@ -123,7 +123,12 @@ namespace CombAlg3
                     Builder.Append(Genom[i].ToString());
                 }
                 Builder.Append("-" + StartTown.ToString());
+                int Length = 0;
+                for (int i = 0; i < Genom.GenesCount - 1; ++i)
+                    Length += AdjacencyMatrix[i, i + 1];
                 labelExhaustiveResult.Text = Builder.ToString();
+                labelExhaustivePathLength.Text = Length.ToString();
+                labelExhaustiveTotalTime.Text = SalesmanTaskSolver.ExhaustiveExecutionTime.ToString();
             }
         }
 
@@ -140,6 +145,11 @@ namespace CombAlg3
             }
             Builder.Append("-" + StartTown.ToString());
             labelGeneticResult.Text = Builder.ToString();
+            int Length = 0;
+            for (int i = 0; i < Genom.GenesCount - 1; ++i)
+                Length += AdjacencyMatrix[i, i + 1];
+            labelGeneticPathLength.Text = Length.ToString();
+            labelGeneticTotalTime.Text = SalesmanTaskSolver.GeneticExecutionTime.ToString();
         }
     }
 }
